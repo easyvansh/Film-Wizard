@@ -30,9 +30,11 @@ The movie data used in this application is sourced from the TMDB Movies Dataset,
 
 To run Film Wizard locally, follow these steps:
 
-Clone the repository: git clone https://github.com/easyvansh/Film-Wizard.git
+### Clone the repository: 
+`git clone https://github.com/easyvansh/Film-Wizard.git`
 
-Install the required dependencies: pip install -r requirements.txt
+### Install the required dependencies: 
+`pip install -r requirements.txt`
 
 Run the Flask development server: python app.py
 
@@ -46,4 +48,4 @@ Film Wizard was developed by Vansh Singh and is inspired by a passion for movies
 
 ## Reference 
 
-- ![Article](https://ai.plainenglish.io/tmdb-streamlit-build-your-own-movie-recommendation-system-f2ffbca63d11)
+- [Article](https://ai.plainenglish.io/tmdb-streamlit-build-your-own-movie-recommendation-system-f2ffbca63d11)
