@@ -12,6 +12,8 @@ Welcome to Film Wizard, a powerful movie recommendation system web application d
 
 - **Search Functionality**: Easily find specific movies using the powerful search feature.
 
+- **Model Used**: TF-IDF TF (term frequency) measures how often a term or word occurs in a given document and TF of a term t in a document d.IDF (inverse document frequency) measures the importance of the term across a corpus. In computing TF (t), all terms are given equal importance (weightage).
+
 ## How to Use
 
 Discover Movies: Start exploring movies from the homepage or use the search function to find specific titles.
@@ -25,7 +27,7 @@ The movie data used in this application is sourced from the TMDB Movies Dataset,
 - **Python** 
 - **Streamlit** 
 - **scikit-learn** 
-- **Pandas* 
+- **Pandas**
 - **NumPy** 
 
 ### To run Film Wizard locally, follow these steps:
