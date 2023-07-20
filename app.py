@@ -4,7 +4,7 @@ import joblib
 import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+from imdb_id  import *
 # Set App Config
 
 st.set_page_config(page_title="Film Wizard",
@@ -37,6 +37,11 @@ tfidf = joblib.load('models/vectorizer.tf')
 cos_mat = joblib.load('models/cos_mat.mt')
 
 
+def fetch_poster(movie_id):
+    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US'.format(movie_id))
+    data = response.json()
+    return "https://image.tmdb.org/t/p/original/" + data['poster_path']
+
 # define functions
 def get_recommendations(movie, n=5):
     
@@ -48,10 +53,18 @@ def get_recommendations(movie, n=5):
     
     # extract names from dataframe and return movie names
     recommendation = []
+    posters = []
+    
+    ids = []
+    for movie in movies:
+        _id = generate_id(name = movie)
+        ids.append(_id)
     for i in similar_movies[1:n+1]:
         recommendation.append(df.iloc[i[0]].title)
+        posters.append(fetch_poster(df.iloc[i[0]].id))
+    
         
-    return recommendation
+    return [recommendation,posters,ids]
 
 
 
@@ -77,8 +90,8 @@ def get_keywords_recommendations(keywords, n=5):
     return recomm
 
 movies = []
+posters = []
 with st.sidebar:
-    # st.image("images/app1.png", use_column_width=True)
     st.header("Get Recommendations by 👇")
     search_type = st.radio("", ('Movie Title', 'Keywords'))
     st.header("Source Code 📦")
@@ -88,11 +101,14 @@ with st.sidebar:
 
 # call functions based on selectbox
 if search_type == 'Movie Title': 
-    st.subheader("Select Movie 🎬")   
+    st.subheader("Select Movie 🎬")  
+     
     movie_name = st.selectbox('', df.title)
     if st.button('Recommend 🚀'):
         with st.spinner('Wait for it...'):
-            movies = get_recommendations(movie_name)   
+            movies = get_recommendations(movie_name)[0]
+            posters   = get_recommendations(movie_name)[1]
+            ids = get_recommendations(movie_name)[2]
 else:
     st.subheader('Enter Cast / Crew / Tags / Genre  🌟')
     keyword = st.text_input('', 'Christopher Nolan')
@@ -101,17 +117,46 @@ else:
             movies = get_keywords_recommendations(keyword)
  
 
+
+
 # display posters       
 if movies:
-    col1, col2, col3,  = st.tabs([movies[0],movies[1],movies[2]])
+    col1, col2, col3, col4, col5 = st.columns(5, gap='medium')
     with col1:
-        st.text(movies[0])
+        st.subheader(movies[0])
+        st.divider()
+        st.text('')
+        st.text('')
+        st.image(posters[0])
+        st.markdown(f"{ids[0]}")
         
     with col2:
-        st.text(movies[1])
-        
+        st.subheader(movies[1])
+        st.divider()
+        st.text('')
+        st.text('')
+        st.image(posters[1])
+        st.markdown(f"{ids[1]}")
 
     with col3:
-        st.text(movies[2])
-
+        st.subheader(movies[2])
+        st.divider()
+        st.text('')
+        st.text('')
+        st.image(posters[2])
+        st.markdown(f"{ids[2]}")
+    with col4:
+        st.subheader(movies[3])
+        st.divider()
+        st.text('')
+        st.text('')
+        st.image(posters[3])
+        st.markdown(f"{ids[3]}")
+    with col5:
+        st.subheader(movies[4])
+        st.divider()
+        st.text('')
+        st.text('')
+        st.image(posters[4])
+        st.markdown(f"{ids[4]}")
 
