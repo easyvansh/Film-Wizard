@@ -46,6 +46,5 @@ We welcome contributions from the open-source community to enhance Film Wizard f
 ## Credits
 Film Wizard was developed by Vansh Singh and is inspired by a passion for movies and the desire to provide users with a magical movie-watching experience.
 
-## Reference 
-
-- [Understanding Key Concepts and the Science Behind Recommendation Engines while Crafting One from Scratch - Alfaque Umer](https://ai.plainenglish.io/tmdb-streamlit-build-your-own-movie-recommendation-system-f2ffbca63d11)
+### Reference
+[Understanding Key Concepts and the Science Behind Recommendation Engines while Crafting One from Scratch](https://ai.plainenglish.io/tmdb-streamlit-build-your-own-movie-recommendation-system-f2ffbca63d11)
