@@ -48,4 +48,4 @@ Film Wizard was developed by Vansh Singh and is inspired by a passion for movies
 
 ## Reference 
 
-- [Article](https://ai.plainenglish.io/tmdb-streamlit-build-your-own-movie-recommendation-system-f2ffbca63d11)
+- [Understanding Key Concepts and the Science Behind Recommendation Engines while Crafting One from Scratch - Alfaque Umer](https://ai.plainenglish.io/tmdb-streamlit-build-your-own-movie-recommendation-system-f2ffbca63d11)
