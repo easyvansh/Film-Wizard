@@ -28,12 +28,12 @@ The movie data used in this application is sourced from the TMDB Movies Dataset,
 - **Pandas* 
 - **NumPy** 
 
-To run Film Wizard locally, follow these steps:
+### To run Film Wizard locally, follow these steps:
 
-### Clone the repository: 
+#### Clone the repository: 
 `git clone https://github.com/easyvansh/Film-Wizard.git`
 
-### Install the required dependencies: 
+#### Install the required dependencies: 
 `pip install -r requirements.txt`
 
 Run the Flask development server: python app.py
