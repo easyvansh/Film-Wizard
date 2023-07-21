@@ -1,4 +1,11 @@
-# Film Wizard - Movie Recommendation System
+<h1 align="center">
+  Film Wizard
+</h1>
+
+<div align="center">
+  <h3>A Movie Recommendation System.</h3>
+</div>
+
 
 Welcome to Film Wizard, a powerful movie recommendation system web application developed using the TMDB Movies Dataset. With Film Wizard, users can discover and explore a vast collection of movies tailored to their preferences, making their movie-watching experience truly magical!
 
@@ -13,6 +20,33 @@ Welcome to Film Wizard, a powerful movie recommendation system web application d
 - **Search Functionality**: Easily find specific movies using the powerful search feature.
 
 - **Model Used**: TF-IDF TF (term frequency) measures how often a term or word occurs in a given document and TF of a term t in a document d.IDF (inverse document frequency) measures the importance of the term across a corpus. In computing TF (t), all terms are given equal importance (weightage).
+
+<h2 align="center">
+  Home Page
+</h2>
+
+
+
+![Preview](https://github.com/easyvansh/Film-Wizard/blob/main/assets/Home%20Preview.png)
+
+<h2 align="center">
+    Side Bar 
+</h2>
+
+
+
+![SideBar](https://github.com/easyvansh/Film-Wizard/blob/main/assets/Sidebar.png)
+
+<p>
+The Sidebar provides us with the option to search by movie title or keywords.
+</p>
+
+<h2 align="center">
+    Result
+</h2>
+
+
+![Result](https://github.com/easyvansh/Film-Wizard/blob/main/assets/Search%20Results.png)
 
 ## How to Use
 
