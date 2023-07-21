@@ -84,13 +84,18 @@ def get_keywords_recommendations(keywords, n=5):
     # sort top n similar movies
     similar_key_movies = sorted(
         list(enumerate(result[0])), reverse=True, key=lambda x: x[1])
-
+    ids = []
+    for movie in movies:
+        _id = generate_id(name=movie)
+        ids.append(_id)
     # extract names from dataframe and return movie names
     recomm = []
     for i in similar_key_movies[1:n+1]:
         recomm.append(df.iloc[i[0]].title)
+        posters.append(fetch_poster(df.iloc[i[0]].id))
 
-    return recomm
+
+    return [recomm, posters, ids]
 
 
 movies = []
@@ -118,7 +123,9 @@ else:
     keyword = st.text_input('', 'Christopher Nolan')
     if st.button('Recommend 🚀'):
         with st.spinner('Wait for it...'):
-            movies = get_keywords_recommendations(keyword)
+            movies = get_keywords_recommendations(keyword)[0]
+            posters = get_keywords_recommendations(keyword)[1]
+            ids = get_keywords_recommendations(keyword)[2]
 
 
 # display posters
