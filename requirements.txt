@@ -1,8 +1,8 @@
-beautifulsoup4==4.12.2
-joblib==1.3.1
+beautifulsoup4
+joblib
 numpy
-pandas==2.0.3
-Requests==2.31.0
-requests_html==0.10.0
-scikit_learn==1.3.0
-streamlit==1.24.1
+pandas
+Requests
+requests_html
+scikit_learn
+streamlit
