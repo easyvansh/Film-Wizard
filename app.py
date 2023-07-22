@@ -5,22 +5,14 @@ import requests
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from imdb_id import *
-# Set App Config
 
+# Set App Config
 st.set_page_config(page_title="Film Wizard",
                    page_icon="https://em-content.zobj.net/thumbs/160/google/350/movie-camera_1f3a5.png", layout="wide",
                    initial_sidebar_state="collapsed",
                    menu_items={
                        'About': "# This is a header. This is an *extremely* cool app!"
                    })
-# st.markdown(f"""
-#             <style>
-#             .stApp {{background-image: url("");
-#                      background-attachment: fixed;
-#                      base: light;
-#                      background-size: cover}}
-#          </style>
-#          """, unsafe_allow_html=True)
 
 with open('./styles.css') as f:
     css = f.read()
@@ -94,7 +86,6 @@ def get_keywords_recommendations(keywords, n=5):
         recomm.append(df.iloc[i[0]].title)
         posters.append(fetch_poster(df.iloc[i[0]].id))
 
-
     return [recomm, posters, ids]
 
 
@@ -130,19 +121,23 @@ else:
 
 # display posters
 if movies:
-    col1, col2, col3,col4, col5= st.columns(5, gap='medium')
+    col1, col2, col3, col4, col5 = st.columns(5, gap='medium')
     with col1:
-        st.markdown(f'''<h3>{movies[0]}</h3><a href="{ids[0]}"><img src="{posters[0]}" width="100%"  /></a>''' ,unsafe_allow_html=True)
-        
+        st.markdown(
+            f'''<h3>{movies[0]}</h3><a href="{ids[0]}"><img src="{posters[0]}" width="100%"  /></a>''', unsafe_allow_html=True)
+
     with col2:
-        st.markdown(f'''<h3>{movies[1]}</h3><a href="{ids[1]}"><img src="{posters[1]}" width="100%"  /></a>''' ,unsafe_allow_html=True)
+        st.markdown(
+            f'''<h3>{movies[1]}</h3><a href="{ids[1]}"><img src="{posters[1]}" width="100%"  /></a>''', unsafe_allow_html=True)
 
     with col3:
-        st.markdown(f'''<h3>{movies[2]}</h3><a href="{ids[2]}"><img src="{posters[2]}" width="100%"  /></a>''' ,unsafe_allow_html=True)
+        st.markdown(
+            f'''<h3>{movies[2]}</h3><a href="{ids[2]}"><img src="{posters[2]}" width="100%"  /></a>''', unsafe_allow_html=True)
 
     with col4:
-        st.markdown(f'''<h3>{movies[3]}</h3><a href="{ids[3]}"><img src="{posters[3]}" width="100%"  /></a>''' ,unsafe_allow_html=True)
-       
+        st.markdown(
+            f'''<h3>{movies[3]}</h3><a href="{ids[3]}"><img src="{posters[3]}" width="100%"  /></a>''', unsafe_allow_html=True)
+
     with col5:
-        st.markdown(f'''<h3>{movies[4]}</h3><a href="{ids[4]}"><img src="{posters[4]}" width="100%"  /></a>''' ,unsafe_allow_html=True)
-        
+        st.markdown(
+            f'''<h3>{movies[4]}</h3><a href="{ids[4]}"><img src="{posters[4]}" width="100%"  /></a>''', unsafe_allow_html=True)
