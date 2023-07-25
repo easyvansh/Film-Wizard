@@ -72,9 +72,13 @@ The movie data used in this application is sourced from the TMDB Movies Dataset,
 #### Install the required dependencies: 
 `pip install -r requirements.txt`
 
-Run the Flask development server: python app.py
+#### Run the Streamlit development server: 
+`streamlit run app.py`
 
-<!-- Access the web application in your browser at http://localhost:5000 -->
+#### Go to:
+`Access the web application in your browser at http://localhost:400`
+
+
 
 ## Contribution
 We welcome contributions from the open-source community to enhance Film Wizard further. If you find any issues or have ideas for improvements, feel free to submit a pull request.
