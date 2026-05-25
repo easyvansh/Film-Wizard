@@ -1,90 +1,196 @@
-<h1 align="center">
-  Film Wizard
-</h1>
+# Film Wizard
 
-<div align="center">
-  <h3>A Movie Recommendation System.</h3>
-</div>
+Film Wizard is a Streamlit movie recommendation app built from the TMDB 5000 movie dataset. It recommends films from either a selected movie title or a keyword search such as cast, crew, genre, mood, or tags.
 
+The recommendation engine uses saved TF-IDF and cosine similarity artifacts, while the app fetches fresh poster and IMDb metadata from TMDB at runtime.
 
-Welcome to Film Wizard, a powerful movie recommendation system web application developed using the TMDB Movies Dataset. With Film Wizard, users can discover and explore a vast collection of movies tailored to their preferences, making their movie-watching experience truly magical!
+## Preview
+
+### Home
+
+![Home Preview](assets/Home%20Preview.png)
+
+### Sidebar
+
+![Sidebar](assets/Sidebar.png)
+
+### Recommendations
+
+![Search Results](assets/Search%20Results.png)
 
 ## Features
 
-- **Personalized Recommendations**: Film Wizard utilizes cutting-edge machine learning algorithms to provide users with personalized movie recommendations based on their viewing history and preferences.
+- Movie-title recommendations based on cosine similarity.
+- Keyword recommendations using the saved TF-IDF vectorizer.
+- Runtime poster fetching from TMDB.
+- Poster fallback handling through TMDB search, with a final placeholder if no poster exists.
+- IMDb links when TMDB provides an IMDb ID.
+- Cached model loading and API calls for smoother Streamlit interaction.
+- Responsive, poster-focused UI with title search, keyword search, and result-count controls.
 
-- **User-Friendly Interface**: The web application boasts an intuitive and user-friendly interface, making it effortless for users to navigate through the extensive movie library.
+## Tech Stack
 
-- **Detailed Movie Information**: Each movie comes with a detailed page showcasing essential information such as plot summary, cast, genre, release date, and more.
+- Python
+- Streamlit
+- Pandas
+- NumPy
+- scikit-learn
+- joblib
+- requests
+- BeautifulSoup
 
-- **Search Functionality**: Easily find specific movies using the powerful search feature.
+## Getting Started
 
-- **Model Used**: TF-IDF TF (term frequency) measures how often a term or word occurs in a given document and TF of a term t in a document d.IDF (inverse document frequency) measures the importance of the term across a corpus. In computing TF (t), all terms are given equal importance (weightage).
+### 1. Clone the Repository
 
-<h2 align="center">
-  Home Page
-</h2>
+```bash
+git clone https://github.com/easyvansh/Film-Wizard.git
+cd Film-Wizard
+```
 
+### 2. Create a Virtual Environment
 
+Windows PowerShell:
 
-![Preview](https://github.com/easyvansh/Film-Wizard/blob/main/assets/Home%20Preview.png)
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
 
-<h2 align="center">
-    Side Bar 
-</h2>
+macOS/Linux:
 
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
 
+### 3. Install Dependencies
 
-![SideBar](https://github.com/easyvansh/Film-Wizard/blob/main/assets/Sidebar.png)
+```bash
+pip install -r requirements.txt
+```
 
-<p>
-The Sidebar provides us with the option to search by movie title or keywords.
-</p>
+### 4. Run the App
 
-<h2 align="center">
-    Result
-</h2>
+```bash
+streamlit run app.py
+```
 
+The project includes `.streamlit/config.toml`, which sets the local Streamlit port to `400`.
 
-![Result](https://github.com/easyvansh/Film-Wizard/blob/main/assets/Search%20Results.png)
+Open the app at:
 
-## How to Use
+```text
+http://localhost:400
+```
 
-Discover Movies: Start exploring movies from the homepage or use the search function to find specific titles.
+If port `400` is already in use, Streamlit may print a different local URL in the terminal.
 
-Get Recommendations: Based on your movie preferences and viewing history, Film Wizard will provide you with tailored movie recommendations on your personalized dashboard.
+## Usage
 
-## Dataset
-The movie data used in this application is sourced from the TMDB Movies Dataset, which contains a vast collection of movie information including titles, cast, crew, genres, release dates, and more.
+1. Open the app in your browser.
+2. Choose a recommendation mode in the sidebar.
+3. Select a movie title or enter keywords.
+4. Choose how many recommendations to show.
+5. Click the recommendation button.
+6. Click any poster card to open the movie page.
 
-## Technologies Used
-- **Python** 
-- **Streamlit** 
-- **scikit-learn** 
-- **Pandas**
-- **NumPy** 
+## Dataset and Model Artifacts
 
-### To run Film Wizard locally, follow these steps:
+The raw dataset lives in `data/`:
 
-#### Clone the repository: 
-`git clone https://github.com/easyvansh/Film-Wizard.git`
+- `data/tmdb_5000_movies.csv`: TMDB movie metadata such as titles, overviews, genres, keywords, release data, and IDs.
+- `data/tmdb_5000_credits.csv`: Cast and crew records for the TMDB movies dataset.
 
-#### Install the required dependencies: 
-`pip install -r requirements.txt`
+The app loads prebuilt artifacts from `models/`:
 
-#### Run the Streamlit development server: 
-`streamlit run app.py`
+- `models/movie_db.df`: Serialized Pandas dataframe used for movie lookup.
+- `models/tfidf_mat.tf`: Serialized TF-IDF feature matrix.
+- `models/vectorizer.tf`: Serialized TF-IDF vectorizer for keyword searches.
+- `models/cos_mat.mt`: Serialized cosine similarity matrix for title-based recommendations.
 
-#### Go to:
-`Access the web application in your browser at http://localhost:400`
+`scikit-learn` is pinned in `requirements.txt` because the saved vectorizer was created with `scikit-learn 1.3.0`. Loading pickle/joblib model artifacts with a much newer version can produce compatibility warnings or incorrect results.
 
+## Poster Fetching
 
+Film Wizard uses multiple poster sources so movie cards do not break:
 
-## Contribution
-We welcome contributions from the open-source community to enhance Film Wizard further. If you find any issues or have ideas for improvements, feel free to submit a pull request.
+1. It requests movie details by TMDB ID and uses the TMDB poster when available.
+2. If the detail response has no poster, it searches TMDB by movie title and uses the first available poster.
+3. If TMDB does not return a usable poster, it asks IMDb's suggestion data for a matching title and uses the IMDb media image when available.
+4. If suggestion data is unavailable, it tries the IMDb title page metadata as a final IMDb fallback.
+5. If every external source fails or a remote image does not load in the browser, the UI falls back to a poster-shaped placeholder so every movie card still has an image area.
 
-## Credits
-Film Wizard was developed by Vansh Singh and is inspired by a passion for movies and the desire to provide users with a magical movie-watching experience.
+The app currently includes a fallback TMDB API key in `app.py`. For deployed or production usage, set your own key through an environment variable:
 
-### Reference
+```bash
+TMDB_API_KEY=your_key_here
+```
+
+On Windows PowerShell:
+
+```powershell
+$env:TMDB_API_KEY="your_key_here"
+```
+
+## Project Structure
+
+```text
+Film-Wizard/
+|-- .streamlit/
+|   `-- config.toml
+|-- assets/
+|   |-- Home Preview.png
+|   |-- Search Results.png
+|   `-- Sidebar.png
+|-- data/
+|   |-- tmdb_5000_credits.csv
+|   `-- tmdb_5000_movies.csv
+|-- models/
+|   |-- cos_mat.mt
+|   |-- movie_db.df
+|   |-- tfidf_mat.tf
+|   `-- vectorizer.tf
+|-- notebook/
+|   `-- Base.ipynb
+|-- .gitattributes
+|-- .gitignore
+|-- app.py
+|-- fetch_review.py
+|-- imdb_id.py
+|-- LICENSE
+|-- README.md
+|-- requirements.txt
+`-- styles.css
+```
+
+## File Guide
+
+- `.streamlit/config.toml`: Streamlit server configuration. The app port is set to `400`.
+- `assets/`: Screenshots used in this README.
+- `data/`: Raw TMDB CSV files used to build the recommendation data.
+- `models/`: Serialized dataframe, vectorizer, TF-IDF matrix, and cosine similarity matrix loaded by the app.
+- `notebook/Base.ipynb`: Notebook used for exploration, preprocessing, and model artifact generation.
+- `.gitattributes`: Git repository attribute settings.
+- `.gitignore`: Excludes local virtual environments, Python caches, editor files, secrets, logs, and build output.
+- `app.py`: Main Streamlit app with UI, recommendation logic, poster fetching, and cached artifact loading.
+- `fetch_review.py`: Experimental/helper script for IMDb review scraping utilities.
+- `imdb_id.py`: Helper for resolving an IMDb movie URL from a title.
+- `LICENSE`: Project license.
+- `requirements.txt`: Python dependencies required to run the app.
+- `styles.css`: Custom Streamlit styling for the app layout and movie cards.
+
+## Notes for Contributors
+
+- Do not commit `.venv/`, `__pycache__/`, local secrets, or editor folders.
+- Keep the files in `models/` available unless you also update the app to regenerate them.
+- If the model artifacts are rebuilt with a newer `scikit-learn`, update the version pin in `requirements.txt`.
+- The app needs internet access to fetch posters and movie links from TMDB.
+
+## License
+
+This project is licensed under the terms in [LICENSE](LICENSE).
+
+## Reference
+
 [Understanding Key Concepts and the Science Behind Recommendation Engines while Crafting One from Scratch](https://ai.plainenglish.io/tmdb-streamlit-build-your-own-movie-recommendation-system-f2ffbca63d11)

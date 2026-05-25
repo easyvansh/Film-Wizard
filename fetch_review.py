@@ -7,33 +7,35 @@ import bs4 as bs
 import urllib.request
 from datetime import date, datetime
 import requests
-from requests_html import HTMLSession
 from bs4 import BeautifulSoup 
+from urllib.parse import quote_plus
+
+def get_with_ssl_fallback(url, **kwargs):
+    try:
+        return requests.get(url, **kwargs)
+    except requests.exceptions.SSLError:
+        return requests.get(url, verify=False, **kwargs)
 
 def generate_id(name):
-    session = HTMLSession()
     headers = {
-        "Accept": "application/json, text/plain, */*",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36",
         "Referer": "https://www.imdb.com/"
     }
     baseURL = "https://www.imdb.com"
-    search_results = {'result_count': 0, 'results': []}
     assert isinstance(name, str)
-    search_results = {}
-    name = name.replace(" ", "+")
-    url = f"https://www.imdb.com/find?q={name}&s=tt&exact=true&ref_=fn_tt_ex"
+    url = f"https://www.imdb.com/find?q={quote_plus(name)}&s=tt&exact=true&ref_=fn_tt_ex"
     try:
-        response = session.get(url)
+        response = get_with_ssl_fallback(url, headers=headers, timeout=10)
+        response.raise_for_status()
     except requests.exceptions.ConnectionError as e:
-        response = session.get(url, verify=False)
-    results = response.html.xpath(
-        "//section[@data-testid='find-results-section-title']/div/ul/li")
-    output = []
-    result = results[0]
-    # name = result.text.replace('\n', ' ')
-    url = result.find('a')[0].attrs['href']
-    file_id = url.split('/')[2]
+        response = requests.get(url, headers=headers, verify=False, timeout=10)
+        response.raise_for_status()
+    soup = BeautifulSoup(response.text, 'html.parser')
+    result = soup.select_one('section[data-testid="find-results-section-title"] a[href^="/title/tt"]')
+    if result is None:
+        return ''
+    file_id = result['href'].split('/')[2]
     movie_url = ''.join(baseURL+'/title/'+file_id)
     try:
         response = requests.get(movie_url).content
