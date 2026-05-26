@@ -10,13 +10,11 @@ The recommendation engine uses saved TF-IDF and cosine similarity artifacts, whi
 
 ![Home Preview](assets/Home%20Preview.png)
 
-### Sidebar
+### Recommendations
 
 ![Sidebar](assets/Sidebar.png)
 
-### Recommendations
 
-![Search Results](assets/Search%20Results.png)
 
 ## Features
 
